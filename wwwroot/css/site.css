@@ -16,3 +16,28 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+table {
+    width: 100%;
+}
+
+.btn-primary:hover {
+    background-color: #378dfc;
+    border: none;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2), -5px -5px 10px rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+.btn-danger:hover {
+    background-color: #e52527;
+    border: none;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2), -5px -5px 10px rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+.btn-info:hover {
+    background-color: #5b62f4;
+    border: none;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2), -5px -5px 10px rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
