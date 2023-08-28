@@ -1,7 +1,19 @@
+using ASPDotNetApp.Daos;
+using ASPDotNetApp.Daos.Impl;
+using Microsoft.Data.SqlClient;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSingleton<SqlConnection>(ServiceProvider =>
+{
+    var config = ServiceProvider.GetRequiredService<IConfiguration>();
+    var connectionString = config.GetConnectionString("DefaultConnection");
+    return new SqlConnection(connectionString);
+});
+builder.Services.AddScoped<IArticleDao, ArticleDao>();
+builder.Services.AddScoped<IPriceListDao, PriceListDao>();
 
 var app = builder.Build();
 
