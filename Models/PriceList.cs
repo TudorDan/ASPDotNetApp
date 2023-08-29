@@ -8,16 +8,24 @@ namespace ASPDotNetApp.Models
         public int Id { get; set; }
         public int ArticleId { get; set; }
         [DisplayName("Purchase price")]
+        [Range(0, 9999999999999999.99, ErrorMessage = "Purchase price must be between 0 and 9999999999999999.99 only!")]
         public decimal? PurchasePrice { get; set; }
         [DisplayName("Markup price")]
+        [Range(0, 999.99, ErrorMessage = "VAT percentage must be between 0 and 999.99 only!")]
         public decimal? MarkupPercentage { get; set; }
         [Required]
-        [DisplayName("Valid start")]
+        [DisplayName("Start Date")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
+        [DataType(DataType.Date)]
         public DateTime ValidStartDate { get; set; }
         [Required]
-        [DisplayName("Valid end")]
+        [DisplayName("End Date")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
+        [DataType(DataType.Date)]
+        [Compare("ValidStartDate", ErrorMessage = "End Date must be greater than Start Date!")]
         public DateTime ValidEndDate { get; set; }
         [DisplayName("Retail price")]
+        [Range(0, 9999999999999999.99, ErrorMessage = "Retail price must be between 0 and 9999999999999999.99 only!")]
         public decimal? RetailPrice { get; set; }
     }
 }

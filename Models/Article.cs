@@ -7,8 +7,10 @@ namespace ASPDotNetApp.Models
     {
         public int Id { get; set; }
         [Required]
+        [StringLength(255)]
         public string Name { get; set; }
         [Required]
+        [StringLength(50)]
         public string Code { get; set; }
         [Required]
         [DisplayName("VAT percentage")]
@@ -18,7 +20,7 @@ namespace ASPDotNetApp.Models
         [Range(0, 9999999999999999.99, ErrorMessage = "Purchase price must be between 0 and 9999999999999999.99 only!")]
         public decimal? PurchasePrice { get; set; }
         [DisplayName("Retail price")]
-        [Range(0, 9999999999999999.99, ErrorMessage = "VAT percentage must be between 0 and 9999999999999999.99 only!")]
+        [Range(0, 9999999999999999.99, ErrorMessage = "Retail price must be between 0 and 9999999999999999.99 only!")]
         public decimal? RetailPrice { get; set; }
         [Required]
         public bool Status { get; set; }
