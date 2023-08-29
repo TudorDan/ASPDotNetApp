@@ -9,7 +9,7 @@
             <h2 class="text-primary">Price List</h2>
         </div>
         <div class="col-4 text-center">
-            <a asp-controller="Articles" asp-action="Index" class="btn btn-info" style="width:150px">Back</a>
+            <a asp-controller="Articles" asp-action="Index" class="btn btn-light" style="width:150px">Back</a>
         </div>
         <div class="col-4 text-end">
             <a asp-controller="PriceLists" asp-action="Create" asp-route-articleId="@Model.Item1.Id" class="btn btn-primary">
@@ -73,7 +73,7 @@
                     <td>
                         <div class="btn-group" role="group">
                             <a asp-controller="PriceLists" asp-action="Edit" asp-route-id="@priceList.Id"
-                               class="btn btn-primary">
+                               class="btn btn-warning">
                                 <i class="bi bi-pencil-square"></i> Edit
                             </a>
                             <a asp-controller="PriceLists" asp-action="Delete" asp-route-id="@priceList.Id"
