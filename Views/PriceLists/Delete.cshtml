@@ -1,0 +1,37 @@
+﻿@model PriceList
+
+<form method="post" asp-action="DeletePost">
+    <input asp-for="Id" hidden />
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2>Delete Price List</h2>
+            <hr />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="PurchasePrice"></label>
+            <input asp-for="PurchasePrice" type="number" disabled class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="MarkupPercentage"></label>
+            <input asp-for="MarkupPercentage" type="number" disabled class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="ValidStartDate"></label>
+            <input asp-for="ValidStartDate" type="date" disabled class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="ValidEndDate"></label>
+            <input asp-for="ValidEndDate" type="date" disabled class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="RetailPrice"></label>
+            <input asp-for="RetailPrice" type="number" disabled class="form-control" />
+        </div>
+        <button type="submit" class="btn btn-danger" style="width:150px">Delete</button>
+        <a asp-controller="PriceLists" asp-action="Index" asp-route-id="@ViewBag.ArticleId"
+           class="btn btn-light" style="width:150px">
+            Back
+        </a>
+    </div>
+</form>

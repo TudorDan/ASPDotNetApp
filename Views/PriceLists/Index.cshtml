@@ -1,0 +1,89 @@
+﻿@model Tuple<Article, IEnumerable<PriceList>>
+@{
+    ViewData["Title"] = "Price Lists Page";
+}
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-4">
+            <h2 class="text-primary">Price List</h2>
+        </div>
+        <div class="col-4 text-center">
+            <a asp-controller="Articles" asp-action="Index" class="btn btn-info" style="width:150px">Back</a>
+        </div>
+        <div class="col-4 text-end">
+            <a asp-controller="PriceLists" asp-action="Create" asp-route-articleId="@Model.Item1.Id" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> &nbsp; Create New Price List
+            </a>
+        </div>
+    </div>
+    <br /><br />
+    <div class="card border-primary mb-3 w-100">
+        <div class="card-header">Article</div>
+        <div class="card-body">
+            <h4 class="card-title"><strong>Name:</strong> @Model.Item1.Name</h4>
+            <p class="card-title"><strong>Code:</strong> @Model.Item1.Code</p>
+            <p class="card-text"><strong>VAT percentage:</strong> @Model.Item1.VATPercentage</p>
+            <p class="card-text">
+                <strong>PurchasePrice:</strong>&nbsp;
+                @if (Model.Item1.PurchasePrice.HasValue)
+                {
+                    @Model.Item1.PurchasePrice
+                }
+                else
+                {
+                    <span>none</span>
+                }
+            </p>
+            <p class="card-text">
+                <strong>RetailPrice:</strong>&nbsp;
+                @if (Model.Item1.RetailPrice.HasValue)
+                {
+                    @Model.Item1.RetailPrice
+                }
+                else
+                {
+                    <span>none</span>
+                }
+            </p>
+            <p class="card-text"><strong>Status:</strong> @(Model.Item1.Status ? "Active" : "Inactive")</p>
+        </div>
+    </div>
+
+    <table class="table table-active">
+        <thead>
+            <tr>
+                <th>Purchase Price</th>
+                <th>Markup Percentage</th>
+                <th>Valid Start Date</th>
+                <th>Valid End Date</th>
+                <th>Retail Price</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var priceList in Model.Item2)
+            {
+                <tr>
+                    <td>@priceList.PurchasePrice</td>
+                    <td>@priceList.MarkupPercentage</td>
+                    <td>@priceList.ValidStartDate.ToString("MMMM dd, yyyy")</td>
+                    <td>@priceList.ValidEndDate.ToString("MMMM dd, yyyy")</td>
+                    <td>@priceList.RetailPrice</td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <a asp-controller="PriceLists" asp-action="Edit" asp-route-id="@priceList.Id"
+                               class="btn btn-primary">
+                                <i class="bi bi-pencil-square"></i> Edit
+                            </a>
+                            <a asp-controller="PriceLists" asp-action="Delete" asp-route-id="@priceList.Id"
+                               class="btn btn-danger">
+                                <i class="bi bi-trash-fill"></i> Delete
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

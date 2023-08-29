@@ -1,0 +1,48 @@
+﻿@model PriceList
+
+<form method="post">
+    <input asp-for="ArticleId" value="@ViewBag.ArticleId" hidden />
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2>Edit Price List</h2>
+            <hr />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="PurchasePrice"></label>
+            <input asp-for="PurchasePrice" type="number" class="form-control" />
+            <span asp-validation-for="PurchasePrice" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="MarkupPercentage"></label>
+            <input asp-for="MarkupPercentage" type="number" class="form-control" />
+            <span asp-validation-for="MarkupPercentage" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="ValidStartDate"></label>
+            <input asp-for="ValidStartDate" type="date" class="form-control" />
+            <span asp-validation-for="ValidStartDate" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="ValidEndDate"></label>
+            <input asp-for="ValidEndDate" type="date" class="form-control" />
+            <span asp-validation-for="ValidEndDate" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="RetailPrice"></label>
+            <input asp-for="RetailPrice" type="number" class="form-control" />
+            <span asp-validation-for="RetailPrice" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:150px">Edit</button>
+        <a asp-controller="PriceLists" asp-action="Index" asp-route-id="@ViewBag.ArticleId"
+           class="btn btn-light" style="width:150px">
+            Back
+        </a>
+    </div>
+</form>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
