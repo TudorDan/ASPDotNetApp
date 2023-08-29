@@ -22,7 +22,6 @@ namespace ASPDotNetApp.Models
         [DisplayName("End Date")]
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
         [DataType(DataType.Date)]
-        [Compare("ValidStartDate", ErrorMessage = "End Date must be greater than Start Date!")]
         public DateTime ValidEndDate { get; set; }
         [DisplayName("Retail price")]
         [Range(0, 9999999999999999.99, ErrorMessage = "Retail price must be between 0 and 9999999999999999.99 only!")]
