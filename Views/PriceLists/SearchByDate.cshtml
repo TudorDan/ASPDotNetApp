@@ -1,0 +1,35 @@
+﻿@model IEnumerable<PriceList>
+@{
+    ViewData["Title"] = "Valid Prices by Date";
+}
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <h2 class="text-primary">Valid Prices for @ViewBag.SearchDate.ToString("MMMM dd, yyyy")</h2>
+    </div>
+    <br /><br />
+
+    <table class="table table-active">
+        <thead>
+            <tr>
+                <th>Purchase Price</th>
+                <th>Markup Percentage</th>
+                <th>Valid Start Date</th>
+                <th>Valid End Date</th>
+                <th>Retail Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var priceList in Model)
+            {
+                <tr>
+                    <td>@priceList.PurchasePrice</td>
+                    <td>@priceList.MarkupPercentage</td>
+                    <td>@priceList.ValidStartDate.ToString("MMMM dd, yyyy")</td>
+                    <td>@priceList.ValidEndDate.ToString("MMMM dd, yyyy")</td>
+                    <td>@priceList.RetailPrice</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

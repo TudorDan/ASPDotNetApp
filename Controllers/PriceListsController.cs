@@ -120,10 +120,11 @@ namespace ASPDotNetApp.Controllers
         }
 
         // GET: PriceListController/Prices
-        public ActionResult SearchByDate(DateTime searchDate)
+        public async Task<IActionResult> SearchByDate(DateTime searchDate)
         {
-            Console.WriteLine(searchDate);
-            return View();
+            var priceLists = await _priceListDao.SearchValidPrices(searchDate);
+            ViewBag.SearchDate = searchDate;
+            return View(priceLists);
         }
     }
 }
