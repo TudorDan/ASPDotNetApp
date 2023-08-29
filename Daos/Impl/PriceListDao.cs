@@ -167,6 +167,53 @@ namespace ASPDotNetApp.Daos.Impl
             return priceLists;
         }
 
+        public async Task<IEnumerable<PriceList>> SearchValidPrices(DateTime searchDate)
+        {
+            var priceLists = new List<PriceList>();
+            try
+            {
+                using (var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+                {
+                    await conn.OpenAsync();
+                    var cmdTxt = @"DECLARE @GivenDate DATE = @searchDate;
+                                SELECT * FROM PriceLists
+                                WHERE ValidStartDate < @GivenDate AND ValidEndDate > @GivenDate";
+                    using (var command = new SqlCommand(cmdTxt, conn))
+                    {
+                        command.Parameters.AddWithValue("@searchDate", searchDate);
+                        using (var reader = await command.ExecuteReaderAsync())
+                        {
+                            while (await reader.ReadAsync())
+                            {
+                                var priceList = new PriceList
+                                {
+                                    Id = reader.GetInt32(0),
+                                    ArticleId = reader.GetInt32(1),
+                                    PurchasePrice = reader.IsDBNull(2) ? null : reader.GetDecimal(2),
+                                    MarkupPercentage = reader.IsDBNull(3) ? null : reader.GetDecimal(3),
+                                    ValidStartDate = reader.GetDateTime(4),
+                                    ValidEndDate = reader.GetDateTime(5),
+                                    RetailPrice = reader.IsDBNull(6) ? null : reader.GetDecimal(6)
+                                };
+                                priceLists.Add(priceList);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                await Console.Out.WriteLineAsync($"SQL Exception: {ex.Message}");
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                await Console.Out.WriteLineAsync($"Generic Exception: {ex.Message}");
+                throw;
+            }
+            return priceLists;
+        }
+
         public async Task<bool> Update(PriceList priceList)
         {
             try
