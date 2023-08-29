@@ -6,17 +6,17 @@ namespace ASPDotNetApp.Controllers
 {
     public class ArticlesController : Controller
     {
-        private readonly IArticleDao _iarticleDao;
+        private readonly IArticleDao _articleDao;
 
         public ArticlesController(IArticleDao articleDao)
         {
-            _iarticleDao = articleDao;
+            _articleDao = articleDao;
         }
 
         // GET: ArticlesController
         public async Task<IActionResult> Index()
         {
-            var articlesList = await _iarticleDao.GetAll();
+            var articlesList = await _articleDao.GetAll();
             return View(articlesList);
         }
 
@@ -33,7 +33,7 @@ namespace ASPDotNetApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var isCreateSuccessful = await _iarticleDao.Add(article);
+                var isCreateSuccessful = await _articleDao.Add(article);
                 if (isCreateSuccessful)
                 {
                     TempData["success"] = $"Article {article.Name} created successfully";
@@ -50,7 +50,7 @@ namespace ASPDotNetApp.Controllers
         // GET: ArticlesController/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
-            var articleFromDb = await _iarticleDao.Get(id);
+            var articleFromDb = await _articleDao.Get(id);
             if (articleFromDb == null)
             {
                 return NotFound();
@@ -58,14 +58,14 @@ namespace ASPDotNetApp.Controllers
             return View(articleFromDb);
         }
 
-        // POST: ArticlesController/Edit/5
+        // POST: ArticlesController/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Article article)
         {
             if (ModelState.IsValid)
             {
-                var isUpdateSuccessful = await _iarticleDao.Update(article);
+                var isUpdateSuccessful = await _articleDao.Update(article);
                 if (isUpdateSuccessful)
                 {
                     TempData["succes"] = $"Article {article.Name} updated successfully";
@@ -82,7 +82,7 @@ namespace ASPDotNetApp.Controllers
         // GET: ArticlesController/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
-            var articleFromDb = await _iarticleDao.Get(id);
+            var articleFromDb = await _articleDao.Get(id);
             if (articleFromDb == null)
             {
                 return NotFound();
@@ -95,14 +95,14 @@ namespace ASPDotNetApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeletePost(int id)
         {
-            var isDeleteSuccessful = await _iarticleDao.Delete(id);
+            var isDeleteSuccessful = await _articleDao.Delete(id);
             if (isDeleteSuccessful)
             {
-                TempData["success"] = $"Article deleted successfully";
+                TempData["success"] = "Article deleted successfully";
             }
             else
             {
-                TempData["error"] = $"Article deleted successfully!";
+                TempData["error"] = "Error deleting article!";
             }
             return RedirectToAction("Index");
         }
