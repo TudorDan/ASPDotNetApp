@@ -33,14 +33,21 @@ namespace ASPDotNetApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var isCreateSuccessful = await _articleDao.Add(article);
-                if (isCreateSuccessful)
+                try
                 {
-                    TempData["success"] = $"Article {article.Name} created successfully";
+                    var isCreateSuccessful = await _articleDao.Add(article);
+                    if (isCreateSuccessful)
+                    {
+                        TempData["success"] = $"Article {article.Name} created successfully";
+                    }
+                    else
+                    {
+                        TempData["error"] = $"Error creating Article {article.Name}!";
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    TempData["error"] = $"Error creating Article {article.Name}!";
+                    TempData["error"] = $"Database error: {ex.Message}";
                 }
                 return RedirectToAction("Index");
             }
@@ -65,15 +72,22 @@ namespace ASPDotNetApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var isUpdateSuccessful = await _articleDao.Update(article);
-                if (isUpdateSuccessful)
+                try
                 {
-                    TempData["succes"] = $"Article {article.Name} updated successfully";
+                    var isUpdateSuccessful = await _articleDao.Update(article);
+                    if (isUpdateSuccessful)
+                    {
+                        TempData["succes"] = $"Article {article.Name} updated successfully";
+                    }
+                    else
+                    {
+                        TempData["error"] = $"Error updating Article {article.Name}!";
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    TempData["error"] = $"Error updating Article {article.Name}!";
-                }
+                    TempData["error"] = $"Database error: {ex.Message}";
+                }                
                 return RedirectToAction("Index");
             }
             return View(article);
