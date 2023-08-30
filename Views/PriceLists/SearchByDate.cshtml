@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PriceList>
+﻿@model IEnumerable<PriceListViewModel>
 @{
     ViewData["Title"] = "Valid Prices by Date";
 }
@@ -12,6 +12,7 @@
     <table class="table table-active">
         <thead>
             <tr>
+                <th>Article Name</th>
                 <th>Purchase Price</th>
                 <th>Markup Percentage</th>
                 <th>Valid Start Date</th>
@@ -20,14 +21,20 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var priceList in Model)
+            @foreach (var priceListVM in Model)
             {
                 <tr>
-                    <td>@priceList.PurchasePrice</td>
-                    <td>@priceList.MarkupPercentage</td>
-                    <td>@priceList.ValidStartDate.ToString("MMMM dd, yyyy")</td>
-                    <td>@priceList.ValidEndDate.ToString("MMMM dd, yyyy")</td>
-                    <td>@priceList.RetailPrice</td>
+                    <td>
+                        <a asp-controller="PriceLists" asp-action="Index" asp-route-id="@priceListVM.ArticleId"
+                           class="btn btn-info" style="width:90%">
+                            <i class="bi bi-info-circle"></i> @priceListVM.ArticleName
+                        </a>
+                    </td>
+                    <td>@priceListVM.PurchasePrice</td>
+                    <td>@priceListVM.MarkupPercentage</td>
+                    <td>@priceListVM.ValidStartDate.ToString("MMMM dd, yyyy")</td>
+                    <td>@priceListVM.ValidEndDate.ToString("MMMM dd, yyyy")</td>
+                    <td>@priceListVM.RetailPrice</td>
                 </tr>
             }
         </tbody>

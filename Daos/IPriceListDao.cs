@@ -9,6 +9,6 @@ namespace ASPDotNetApp.Daos
         Task<PriceList?> Get(int id);
         Task<bool> Update(PriceList priceList);
         Task<bool> Delete(int id);
-        Task<IEnumerable<PriceList>> SearchValidPrices(DateTime searchDate);
+        Task<IEnumerable<PriceListViewModel>> SearchValidPrices(DateTime searchDate);
     }
 }

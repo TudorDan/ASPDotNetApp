@@ -9,7 +9,7 @@
             <h2 class="text-primary">Price List</h2>
         </div>
         <div class="col-4 text-center">
-            <a asp-controller="Articles" asp-action="Index" class="btn btn-light" style="width:150px">Back</a>
+            <button onclick="history.go(-1)" class="btn btn-light" style="width:150px">Back</button>
         </div>
         <div class="col-4 text-end">
             <a asp-controller="PriceLists" asp-action="Create" asp-route-articleId="@Model.Item1.Id" class="btn btn-primary">

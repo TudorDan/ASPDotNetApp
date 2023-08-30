@@ -167,16 +167,18 @@ namespace ASPDotNetApp.Daos.Impl
             return priceLists;
         }
 
-        public async Task<IEnumerable<PriceList>> SearchValidPrices(DateTime searchDate)
+        public async Task<IEnumerable<PriceListViewModel>> SearchValidPrices(DateTime searchDate)
         {
-            var priceLists = new List<PriceList>();
+            var priceLists = new List<PriceListViewModel>();
             try
             {
                 using (var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
                 {
                     await conn.OpenAsync();
                     var cmdTxt = @"DECLARE @GivenDate DATE = @searchDate;
-                                SELECT * FROM PriceLists
+                                SELECT P.*, A.Name 
+                                FROM PriceLists P
+                                INNER JOIN Articles A ON P.ArticleId = A.Id
                                 WHERE ValidStartDate < @GivenDate AND ValidEndDate > @GivenDate";
                     using (var command = new SqlCommand(cmdTxt, conn))
                     {
@@ -185,7 +187,7 @@ namespace ASPDotNetApp.Daos.Impl
                         {
                             while (await reader.ReadAsync())
                             {
-                                var priceList = new PriceList
+                                var priceList = new PriceListViewModel
                                 {
                                     Id = reader.GetInt32(0),
                                     ArticleId = reader.GetInt32(1),
@@ -193,7 +195,8 @@ namespace ASPDotNetApp.Daos.Impl
                                     MarkupPercentage = reader.IsDBNull(3) ? null : reader.GetDecimal(3),
                                     ValidStartDate = reader.GetDateTime(4),
                                     ValidEndDate = reader.GetDateTime(5),
-                                    RetailPrice = reader.IsDBNull(6) ? null : reader.GetDecimal(6)
+                                    RetailPrice = reader.IsDBNull(6) ? null : reader.GetDecimal(6),
+                                    ArticleName = reader.GetString(7),
                                 };
                                 priceLists.Add(priceList);
                             }
