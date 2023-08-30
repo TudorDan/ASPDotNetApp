@@ -70,6 +70,13 @@ namespace ASPDotNetApp.Daos.Impl
                 using (var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
                 {
                     await conn.OpenAsync();
+                    var priceListCmdTxt = "DELETE FROM PriceLists WHERE ArticleId = @Id";
+                    using (var priceListCommand = new SqlCommand(priceListCmdTxt, conn))
+                    {
+                        priceListCommand.Parameters.AddWithValue("@Id", id);
+                        await priceListCommand.ExecuteNonQueryAsync();
+                    }
+
                     var cmdTxt = "DELETE FROM Articles WHERE Id = @Id";
                     using (var command = new SqlCommand(cmdTxt, conn))
                     {
