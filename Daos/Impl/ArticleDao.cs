@@ -31,8 +31,23 @@ namespace ASPDotNetApp.Daos.Impl
                         command.Parameters.AddWithValue("@PurchasePrice", article.PurchasePrice ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@RetailPrice", article.RetailPrice ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@Status", article.Status);
-                        int rowsAffected = await command.ExecuteNonQueryAsync();
-                        return rowsAffected > 0;
+                        int newArticleId = Convert.ToInt32(await command.ExecuteScalarAsync());
+
+                        // Add corresponding PriceList entry
+                        var priceListCmdTxt = @"INSERT INTO PriceLists
+                        (ArticleId, PurchasePrice, MarkupPercentage, ValidStartDate, ValidEndDate, RetailPrice)
+                        VALUES (@ArticleId, @PLPurchasePrice, @MarkupPercentage, @ValidStartDate, @ValidEndDate, @PLRetailPrice)";
+                        using (var priceListCommand = new SqlCommand(priceListCmdTxt, conn))
+                        {
+                            priceListCommand.Parameters.AddWithValue("@ArticleId", newArticleId);
+                            priceListCommand.Parameters.AddWithValue("@PLPurchasePrice", article.PurchasePrice ?? (object)DBNull.Value);
+                            priceListCommand.Parameters.AddWithValue("@MarkupPercentage", (object)DBNull.Value);
+                            priceListCommand.Parameters.AddWithValue("@ValidStartDate", DateTime.Now);
+                            priceListCommand.Parameters.AddWithValue("@ValidEndDate", DateTime.Now.AddYears(2));
+                            priceListCommand.Parameters.AddWithValue("@PLRetailPrice", article.RetailPrice ?? (object)DBNull.Value);
+                            await priceListCommand.ExecuteNonQueryAsync();
+                        }
+                        return newArticleId > 0;
                     }
                 }
             }
